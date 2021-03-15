@@ -18,16 +18,28 @@ jobs:
     - name: Cleanup
       run: docker logout && docker rmi consulthink/go-builder:latest
 
-  #ci-php:
-  #  runs-on: ubuntu-latest
-  #  steps:
-  #  - uses: actions/checkout@v2
-  #  - name: Build PHP docker-builder image
-  #    run: docker build . --file php-7.4-buster/Dockerfile --tag php-builder:latest
+  ci-php:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build PHP docker-builder image
+      run: docker build . --file php-7.4-buster/Dockerfile --tag php-builder:latest
+    - name: Login to Consulthink registry (docker hub)
+      run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+    - name: Push to Consulthink registry (docker hub)
+      run: docker push consulthink/php-builder:latest
+    - name: Cleanup
+      run: docker logout && docker rmi consulthink/php-builder:latest
 
-  #ci-maven:
-  #  runs-on: ubuntu-latest
-  #  steps:
-  #  - uses: actions/checkout@v2
-  #  - name: Build Java/maven docker-builder image
-  #    run: docker build . --file maven-3.6-buster/Dockerfile --tag consulthink/maven-builder:latest
+  ci-maven:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build Java/maven docker-builder image
+      run: docker build . --file maven-3.6-buster/Dockerfile --tag consulthink/maven-builder:latest
+    - name: Login to Consulthink registry (docker hub)
+      run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+    - name: Push to Consulthink registry (docker hub)
+      run: docker push consulthink/maven-builder:latest
+    - name: Cleanup
+      run: docker logout && docker rmi consulthink/maven-builder:latest
