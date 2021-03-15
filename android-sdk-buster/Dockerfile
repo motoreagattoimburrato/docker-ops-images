@@ -52,14 +52,14 @@ RUN wget -q -O /opt/sonar-scanner.zip https://binaries.sonarsource.com/Distribut
 
 # Install Android SDK
 
-RUN groupadd android && useradd -d /opt/android-sdk-linux -g android android
+#RUN groupadd android && useradd -d /opt/android-sdk-linux -g android android
 
 COPY tools /opt/tools
 COPY licenses /opt/licenses
 
 WORKDIR /opt/android-sdk-linux
 
-RUN /opt/tools/entrypoint.sh built-in
+RUN /opt/tools/android-sdk-update.sh built-in
 
 RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "cmdline-tools;latest"
 RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "build-tools;30.0.2"
