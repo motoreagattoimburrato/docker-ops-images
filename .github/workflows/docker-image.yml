@@ -1,18 +1,31 @@
-name: Docker Image CI
+name: Docker Images CI
 
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
-
-  build:
-
+  ci-go:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - name: Build GOlang docker-builder image
+      run: docker build . --file go-1.16.0-buster/Dockerfile --tag consulthink/go-builder:latest
+    - name: Docker login to Consulthink registry (docker hub)
+      run: docker login --username ${{ secrets.SONARQUBE_HOST }} --password ${{ secrets.SONARQUBE_TOKEN }}
+    - name: Docker push to Consulthink registry (docker hub)
+      run: docker push consulthink/go-builder:latest
+
+  #ci-php:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #  - uses: actions/checkout@v2
+  #  - name: Build PHP docker-builder image
+  #    run: docker build . --file php-7.4-buster/Dockerfile --tag php-builder:latest
+
+  #ci-maven:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #  - uses: actions/checkout@v2
+  #  - name: Build Java/maven docker-builder image
+  #    run: docker build . --file maven-3.6-buster/Dockerfile --tag consulthink/maven-builder:latest
