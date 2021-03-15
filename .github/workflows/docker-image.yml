@@ -43,3 +43,16 @@ jobs:
       run: docker push consulthink/maven-builder:latest
     - name: Cleanup
       run: docker logout && docker rmi consulthink/maven-builder:latest
+
+  ci-android:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build Android/gradle docker-builder image
+      run: docker build . --file android-sdk-buster/Dockerfile --tag consulthink/android-builder:latest
+    - name: Login to Consulthink registry (docker hub)
+      run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+    - name: Push to Consulthink registry (docker hub)
+      run: docker push consulthink/android-builder:latest
+    - name: Cleanup
+      run: docker logout && docker rmi consulthink/android-builder:latest
