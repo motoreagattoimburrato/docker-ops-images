@@ -1,7 +1,8 @@
 FROM openjdk:11-buster
 
-ENV SONAR_SCANNER_HOME=/opt/sonar-scanner
 ENV JAVA_HOME=/opt/java/openjdk
+
+ENV SONAR_SCANNER_HOME=/opt/sonar-scanner
 ENV XDG_CONFIG_HOME=/tmp
 ENV SONAR_SCANNER_HOME=${SONAR_SCANNER_HOME}
 ENV SONAR_USER_HOME=${SONAR_SCANNER_HOME}/.sonar
@@ -13,7 +14,7 @@ WORKDIR /opt
 
 RUN apt-get update \
     && apt-get -y install git jq vim wget unzip gnupg bash shellcheck curl \
-                          build-essential nodejs npm  python3 python3-pip \
+                          build-essential nodejs npm python3 python3-pip maven \
     && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g typescript@3.7.5 \
@@ -21,10 +22,9 @@ RUN npm install -g typescript@3.7.5 \
 
 # Install OWASP Dependency-Check
 RUN wget -q -O /opt/dependency-check.zip https://github.com/jeremylong/DependencyCheck/releases/download/v6.1.2/dependency-check-6.1.2-release.zip \
-    && wget -q -O /opt/dependency-check.zip.asc https://github.com/jeremylong/DependencyCheck/releases/download/v6.1.2/dependency-check-6.1.2-release.zip.asc \
-    && unzip /opt/dependency-check.zip \
-    && rm -rf /opt/dependency-check.zip.asc /opt/dependency-check.zip
+    && unzip /opt/dependency-check.zip && rm -rf /opt/dependency-check.zip
 
+# Install Sonarqube Scanner 4.6
 RUN wget -q -O /opt/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.0.2311-linux.zip \
     && wget -q -O /opt/sonar-scanner.zip.asc https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.0.2311-linux.zip.asc \
     && wget -q -O /opt/sonarsource-public.key https://binaries.sonarsource.com/sonarsource-public.key \
@@ -33,9 +33,6 @@ RUN wget -q -O /opt/sonar-scanner.zip https://binaries.sonarsource.com/Distribut
     && unzip sonar-scanner.zip \
     && rm -rf sonar-scanner.zip sonar-scanner.zip.asc \
     && mv sonar-scanner-4.6.0.2311-linux ${SONAR_SCANNER_HOME}
-
-RUN apt-get update \
-    && apt-get -y install maven
 
 RUN mkdir /workspace
 WORKDIR /workspace

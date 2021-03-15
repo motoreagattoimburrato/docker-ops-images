@@ -1,14 +1,13 @@
-FROM golang:1.16.0-buster
+FROM php:7.4-apache-buster
 
 #ENV JAVA_HOME=/opt/java/openjdk
 
 ENV DEPENDENCY_CHECK_HOME=/opt/dependency-check
 ENV SONAR_SCANNER_HOME=/opt/sonar-scanner
-ENV GOPATH=/go
 ENV XDG_CONFIG_HOME=/tmp
 ENV SONAR_SCANNER_HOME=${SONAR_SCANNER_HOME}
 ENV SONAR_USER_HOME=${SONAR_SCANNER_HOME}/.sonar
-ENV PATH=/opt/java/openjdk/bin:${SONAR_SCANNER_HOME}/bin:${NODEJS_HOME}/bin:${DEPENDENCY_CHECK_HOME}/bin:${DEPENDENCY_CHECK_HOME}/bin:${PATH}
+ENV PATH=/opt/java/openjdk/bin:${SONAR_SCANNER_HOME}/bin:${NODEJS_HOME}/bin:${DEPENDENCY_CHECK_HOME}/bin:${PATH}
 ENV NODE_PATH=${NODEJS_HOME}/lib/node_modules
 ENV SRC_PATH=/usr/src
 
