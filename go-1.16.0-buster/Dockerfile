@@ -1,14 +1,12 @@
-FROM golang:1.16.0-buster
+FROM openjdk:11-buster as builder
 
-#ENV JAVA_HOME=/opt/java/openjdk
-
+ENV JAVA_HOME=/usr/local/openjdk-11
 ENV DEPENDENCY_CHECK_HOME=/opt/dependency-check
 ENV SONAR_SCANNER_HOME=/opt/sonar-scanner
-ENV GOPATH=/go
 ENV XDG_CONFIG_HOME=/tmp
 ENV SONAR_SCANNER_HOME=${SONAR_SCANNER_HOME}
 ENV SONAR_USER_HOME=${SONAR_SCANNER_HOME}/.sonar
-ENV PATH=/opt/java/openjdk/bin:${SONAR_SCANNER_HOME}/bin:${NODEJS_HOME}/bin:${DEPENDENCY_CHECK_HOME}/bin:${DEPENDENCY_CHECK_HOME}/bin:${PATH}
+ENV PATH=${JAVA_HOME}/bin:${SONAR_SCANNER_HOME}/bin:${NODEJS_HOME}/bin:${DEPENDENCY_CHECK_HOME}/bin:${DEPENDENCY_CHECK_HOME}/bin:${PATH}
 ENV NODE_PATH=${NODEJS_HOME}/lib/node_modules
 ENV SRC_PATH=/usr/src
 
@@ -16,7 +14,7 @@ WORKDIR /opt
 
 RUN apt-get update \
     && apt-get -y install git jq vim wget unzip gnupg bash shellcheck curl \
-                          build-essential nodejs npm python3 python3-pip openjdk-11-jdk \
+                          build-essential nodejs npm python3 python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g typescript@3.7.5 \
@@ -35,6 +33,20 @@ RUN wget -q -O /opt/sonar-scanner.zip https://binaries.sonarsource.com/Distribut
     && unzip sonar-scanner.zip \
     && rm -rf sonar-scanner.zip sonar-scanner.zip.asc \
     && mv sonar-scanner-4.6.0.2311-linux ${SONAR_SCANNER_HOME}
+
+FROM golang:1.16.0-buster
+COPY --from=builder / /
+
+ENV JAVA_HOME=/usr/local/openjdk-11
+ENV DEPENDENCY_CHECK_HOME=/opt/dependency-check
+ENV SONAR_SCANNER_HOME=/opt/sonar-scanner
+ENV GOPATH=/go
+ENV XDG_CONFIG_HOME=/tmp
+ENV SONAR_SCANNER_HOME=${SONAR_SCANNER_HOME}
+ENV SONAR_USER_HOME=${SONAR_SCANNER_HOME}/.sonar
+ENV PATH=${JAVA_HOME}/bin:${SONAR_SCANNER_HOME}/bin:${NODEJS_HOME}/bin:${DEPENDENCY_CHECK_HOME}/bin:${DEPENDENCY_CHECK_HOME}/bin:${PATH}
+ENV NODE_PATH=${NODEJS_HOME}/lib/node_modules
+ENV SRC_PATH=/usr/src
 
 RUN mkdir /workspace
 WORKDIR /workspace
