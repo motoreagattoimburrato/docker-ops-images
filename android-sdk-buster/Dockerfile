@@ -15,12 +15,13 @@ ENV PATH="${PATH}:${ANDROID_HOME}/platform-tools"
 ENV PATH="${PATH}:${ANDROID_HOME}/emulator"
 ENV PATH="${PATH}:${ANDROID_HOME}/bin"
 
+ENV DEPENDENCY_CHECK_HOME=/opt/dependency-check
 ENV JAVA_HOME=/opt/java/openjdk
 ENV SONAR_SCANNER_HOME=/opt/sonar-scanner
 ENV XDG_CONFIG_HOME=/tmp
 ENV SONAR_SCANNER_HOME=${SONAR_SCANNER_HOME}
 ENV SONAR_USER_HOME=${SONAR_SCANNER_HOME}/.sonar
-ENV PATH=${JAVA_HOME}/bin:${SONAR_SCANNER_HOME}/bin:${NODEJS_HOME}/bin:${PATH}
+ENV PATH=${JAVA_HOME}/bin:${SONAR_SCANNER_HOME}/bin:${NODEJS_HOME}/bin:${DEPENDENCY_CHECK_HOME}/bin:${PATH}
 ENV NODE_PATH=${NODEJS_HOME}/lib/node_modules
 ENV SRC_PATH=/usr/src
 
@@ -28,7 +29,7 @@ WORKDIR /opt
 
 RUN dpkg --add-architecture i386 \
     && apt-get update \
-    && apt-get -y install git jq vim wget unzip gnupg bash shellcheck curl \
+    && apt-get -y install git jq vim wget unzip gnupg bash shellcheck curl tar \
                           build-essential nodejs npm python3 python3-pip expect \
                           libc6:i386 libgcc1:i386 libncurses5:i386 libstdc++6:i386 zlib1g:i386 \
     && rm -rf /var/lib/apt/lists/*

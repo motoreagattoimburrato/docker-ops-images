@@ -1,11 +1,12 @@
 FROM maven:3.6-jdk-11
 
+ENV DEPENDENCY_CHECK_HOME=/opt/dependency-check
 ENV JAVA_HOME=/usr/local/openjdk-11
 ENV SONAR_SCANNER_HOME=/opt/sonar-scanner
 ENV XDG_CONFIG_HOME=/tmp
 ENV SONAR_SCANNER_HOME=${SONAR_SCANNER_HOME}
 ENV SONAR_USER_HOME=${SONAR_SCANNER_HOME}/.sonar
-ENV PATH=${JAVA_HOME}/bin:${SONAR_SCANNER_HOME}/bin:${NODEJS_HOME}/bin:${PATH}
+ENV PATH=${JAVA_HOME}/bin:${SONAR_SCANNER_HOME}/bin:${NODEJS_HOME}/bin:${DEPENDENCY_CHECK_HOME}/bin:${PATH}
 ENV NODE_PATH=${NODEJS_HOME}/lib/node_modules
 ENV SRC_PATH=/usr/src
 
@@ -13,7 +14,7 @@ WORKDIR /opt
 
 RUN apt-get update \
     && apt-get -y install git jq vim wget unzip gnupg bash shellcheck curl \
-                          build-essential nodejs npm python3 python3-pip \
+                          build-essential nodejs npm python3 python3-pip tar \
     && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g typescript@3.7.5 \
