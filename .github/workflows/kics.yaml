@@ -1,0 +1,46 @@
+name: KICS scan
+
+on:
+  push:
+    branches:
+      - 'main'
+      - 'feature/*'
+
+jobs:
+  kics-job:
+    runs-on: ubuntu-latest
+    name: kics-action
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Create folder output - results-dir
+        run: mkdir -p results-dir
+
+      - name: Create KICS config file
+        run: |
+          cat <<EOF >>kics.config
+          {
+            "exclude-categories": "Encryption",
+            "log-file": true,
+            "minimal-ui": false,
+            "no-color": false,
+            "no-progress": true,
+            "output-path": "./results-dir",
+            "payload-path": "file path to store source internal representation in JSON format",
+            "report-formats": "json,sarif",
+            "type": "Dockerfile",
+            "verbose": true
+          }
+          EOF
+
+      - name: Run KICS Scan (using configfile)
+        uses: checkmarx/kics-action@v1.0
+        with:
+          path: '.'
+          config_path: ./kics.config
+
+      - name: Upload SARIF file (Github CodeQL)
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: results-dir/results.sarif
