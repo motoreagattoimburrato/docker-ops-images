@@ -13,7 +13,7 @@ ENV SRC_PATH=/usr/src
 WORKDIR /opt
 
 RUN apt-get update \
-    && apt-get -y install git jq vim wget unzip gnupg bash shellcheck curl tar \
+    && apt-get -y install git jq vim wget unzip gnupg bash shellcheck curl tar ca-certificates \
                           build-essential nodejs npm python3 python3-pip zip unzip \
     && rm -rf /var/lib/apt/lists/*
 
