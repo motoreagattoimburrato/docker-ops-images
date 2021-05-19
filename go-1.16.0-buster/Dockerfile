@@ -51,4 +51,7 @@ ENV SRC_PATH=/usr/src
 RUN mkdir /workspace
 WORKDIR /workspace
 
+# Missing CA chain
+RUN curl https://www.actalis.it/documenti-it/actalisorganizationvalidatedservercag3.aspx > /usr/local/share/ca-certificates/cacerts.crt && update-ca-certificates
+
 CMD ["/bin/bash"]

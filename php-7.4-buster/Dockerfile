@@ -54,4 +54,7 @@ WORKDIR /workspace
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer && chmod a+x /usr/local/bin/composer
 
+# Missing CA chain
+RUN curl https://www.actalis.it/documenti-it/actalisorganizationvalidatedservercag3.aspx > /usr/local/share/ca-certificates/cacerts.crt && update-ca-certificates
+
 CMD ["/bin/bash"]

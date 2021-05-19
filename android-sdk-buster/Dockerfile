@@ -72,4 +72,7 @@ RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "system-images;and
 RUN mkdir /workspace
 WORKDIR /workspace
 
+# Missing CA chain
+RUN curl https://www.actalis.it/documenti-it/actalisorganizationvalidatedservercag3.aspx > /usr/local/share/ca-certificates/cacerts.crt && update-ca-certificates
+
 CMD ["/bin/bash"]
