@@ -1,4 +1,4 @@
-FROM gradle:6.5-jdk8
+FROM gradle:6.7-jdk11
 
 ENV DEBIAN_FRONTEND noninteractive
 
