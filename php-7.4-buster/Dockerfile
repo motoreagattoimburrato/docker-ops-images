@@ -14,7 +14,7 @@ WORKDIR /opt
 
 RUN apt-get update \
     && apt-get -y install git jq vim wget unzip gnupg bash shellcheck curl tar ca-certificates \
-                          build-essential nodejs npm python3 python3-pip zip unzip \
+                          build-essential nodejs npm python3 python3-pip zip unzip ansible ansible-lint \
     && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g typescript@3.7.5 \
