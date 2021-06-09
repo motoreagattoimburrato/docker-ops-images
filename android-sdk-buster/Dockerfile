@@ -1,4 +1,4 @@
-FROM gradle:6.7-jdk11
+FROM gradle:6.7-jdk8
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -29,10 +29,11 @@ WORKDIR /opt
 
 RUN dpkg --add-architecture i386 \
     && apt-get update \
-    && apt-get -y install git jq vim wget unzip gnupg bash shellcheck curl tar \
-                          build-essential nodejs npm python3 python3-pip expect \
-                          libc6:i386 libgcc1:i386 libncurses5:i386 libstdc++6:i386 \
-                          ca-certificates zlib1g:i386 ansible ansible-lint \
+    && apt-get -y install libc6:i386 libgcc1:i386 libncurses5:i386 libstdc++6:i386 zlib1g:i386
+
+RUN apt-get install -y git jq vim wget unzip gnupg bash shellcheck curl tar \
+                        build-essential nodejs npm python3 python3-pip expect \
+                        ca-certificates ansible ansible-lint \
     && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g typescript@3.7.5 \
