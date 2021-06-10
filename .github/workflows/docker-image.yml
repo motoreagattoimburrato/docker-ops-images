@@ -6,7 +6,7 @@ on:
 
 jobs:
   ci-go:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
     - name: Build GOlang docker-builder image
@@ -19,7 +19,7 @@ jobs:
       run: docker logout && docker rmi consulthink/go-builder:latest
 
   ci-php:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
     - name: Build PHP docker-builder image
@@ -32,7 +32,7 @@ jobs:
       run: docker logout && docker rmi consulthink/php-builder:latest
 
   ci-maven:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
     - name: Build Java/maven docker-builder image
@@ -45,7 +45,7 @@ jobs:
       run: docker logout && docker rmi consulthink/maven-builder:latest
 
   ci-android:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
     - name: Build Android/gradle docker-builder image

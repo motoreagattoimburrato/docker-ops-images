@@ -8,7 +8,7 @@ on:
 
 jobs:
   kics-job:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     name: kics-action
     steps:
       - name: Checkout repo
