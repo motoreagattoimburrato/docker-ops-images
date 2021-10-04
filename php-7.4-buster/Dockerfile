@@ -50,6 +50,10 @@ ENV SRC_PATH=/usr/src
 RUN mkdir /workspace
 WORKDIR /workspace
 
+RUN apt-get update \
+    && apt-get -y install php-bcmath \
+    && rm -rf /var/lib/apt/lists/*
+
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer && chmod a+x /usr/local/bin/composer
