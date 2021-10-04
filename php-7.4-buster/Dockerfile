@@ -50,8 +50,8 @@ ENV SRC_PATH=/usr/src
 RUN mkdir /workspace
 WORKDIR /workspace
 
-RUN docker-php-ext-configure bcmath \
-    && docker-php-ext-install -j$(nproc) bcmath
+RUN docker-php-ext-configure bcmath intl \
+    && docker-php-ext-install -j$(nproc) bcmath intl
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php
