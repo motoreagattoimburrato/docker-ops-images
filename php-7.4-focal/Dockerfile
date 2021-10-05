@@ -9,10 +9,8 @@ ENV SONAR_USER_HOME=${SONAR_SCANNER_HOME}/.sonar
 ENV PATH=${JAVA_HOME}/bin:${SONAR_SCANNER_HOME}/bin:${NODEJS_HOME}/bin:${DEPENDENCY_CHECK_HOME}/bin:${PATH}
 ENV NODE_PATH=${NODEJS_HOME}/lib/node_modules
 ENV SRC_PATH=/usr/src
-#ENV DEBIAN_FRONTEND=noninteractive
 
-# workout TZdata:
-#RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
+# Workout TZdata
 ENV TZ=Europe/Rome
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
