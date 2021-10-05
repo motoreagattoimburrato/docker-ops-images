@@ -50,12 +50,6 @@ ENV SRC_PATH=/usr/src
 RUN mkdir /workspace
 WORKDIR /workspace
 
-RUN docker-php-ext-configure bcmath \
-    && docker-php-ext-install -j$(nproc) bcmath
-
-RUN docker-php-ext-configure intl \
-    && docker-php-ext-install -j$(nproc) intl
-
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer && chmod a+x /usr/local/bin/composer
