@@ -23,7 +23,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build PHP docker-builder image
-      run: docker build ./php-7.4-buster/ --file php-7.4-buster/Dockerfile --tag consulthink/php-builder:latest
+      run: docker build ./php-7.4-focal/ --file php-7.4-focal/Dockerfile --tag consulthink/php-builder:latest
     - name: Login to Consulthink registry (docker hub)
       run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
     - name: Push to Consulthink registry (docker hub)
