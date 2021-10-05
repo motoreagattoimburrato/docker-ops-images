@@ -1,6 +1,6 @@
 FROM ubuntu:focal
 
-ENV JAVA_HOME=/usr/local/openjdk-11
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 ENV DEPENDENCY_CHECK_HOME=/opt/dependency-check
 ENV SONAR_SCANNER_HOME=/opt/sonar-scanner
 ENV XDG_CONFIG_HOME=/tmp
@@ -18,7 +18,7 @@ WORKDIR /opt
 
 RUN apt-get update \
     && apt-get -y install git jq vim wget unzip gnupg bash shellcheck curl tar ca-certificates \
-                  build-essential nodejs npm python3 python3-pip zip unzip ansible ansible-lint \
+                  build-essential nodejs npm python3 python3-pip zip bzip2 unzip xz-utils openjdk-11-jdk \
                   php7.4 php7.4-bcmath php7.4-bz2 php7.4-cgi php7.4-cli php7.4-common php7.4-curl \
                   php7.4-dba php7.4-dev php7.4-enchant php7.4-fpm php7.4-gd php7.4-gmp php7.4-imap \
                   php7.4-interbase php7.4-intl php7.4-json php7.4-ldap php7.4-mbstring php7.4-mysql \
