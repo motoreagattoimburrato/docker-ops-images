@@ -33,7 +33,7 @@ RUN dpkg --add-architecture i386 \
 
 RUN apt-get install -y git jq vim wget unzip gnupg bash shellcheck curl tar \
                         build-essential nodejs npm python3 python3-pip expect \
-                        ca-certificates ansible ansible-lint \
+                        ca-certificates ansible ansible-lint zip unzip \
     && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g typescript@3.7.5 \
