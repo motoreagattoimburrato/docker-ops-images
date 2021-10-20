@@ -29,7 +29,7 @@ WORKDIR /opt
 
 RUN dpkg --add-architecture i386 \
     && apt-get update \
-    && apt-get -y -o APT::Immediate-Configure=0 install libc6:i386 libgcc1:i386 libncurses5:i386 libstdc++6:i386 zlib1g:i386
+    && apt-get -y -o APT::Immediate-Configure=0 install libpulse0:i386 libc6:i386 libgcc1:i386 libncurses5:i386 libstdc++6:i386 zlib1g:i386
 
 RUN apt-get install -y git jq vim wget unzip gnupg bash shellcheck curl tar \
                         build-essential nodejs npm python3 python3-pip expect \
@@ -69,7 +69,15 @@ RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "build-tools;30.0.
 RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "platform-tools"
 RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "platforms;android-30"
 RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "system-images;android-30;google_apis;x86_64"
+RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "system-images;android-30;default;arm64-v8a"
+RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "system-images;android-31;default;arm64-v8a"
+RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "system-images;android-30;google_apis;x86_64"
+RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "system-images;android-31;google_apis;x86_64"
 
+RUN echo "no" | avdmanager create avd -n Android31 -k "system-images;android-31;google_apis;x86_64"
+RUN echo "no" | avdmanager create avd -n Android30 -k "system-images;android-30;google_apis;x86_64"
+
+# Install Kotlin SDK
 RUN curl -s https://get.sdkman.io | bash
 RUN source "/root/.sdkman/bin/sdkman-init.sh"
 RUN sdk install kotlin
