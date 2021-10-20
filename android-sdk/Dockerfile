@@ -71,6 +71,7 @@ RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "platforms;android
 RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "system-images;android-30;google_apis;x86_64"
 
 RUN curl -s https://get.sdkman.io | bash
+RUN source "/root/.sdkman/bin/sdkman-init.sh"
 RUN sdk install kotlin
 
 RUN mkdir /workspace
