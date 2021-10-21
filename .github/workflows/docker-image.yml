@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
-    - name: Build GOlang docker-builder image
+    - name: Build GOlang docker CI/CD image
       run: docker build ./go/ --file go/Dockerfile --tag consulthink/go-builder:latest
     - name: Login to Consulthink registry (docker hub)
       run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
-    - name: Build PHP docker-builder image
+    - name: Build PHP docker CI/CD image
       run: docker build ./php/ --file php/Dockerfile --tag consulthink/php-builder:latest
     - name: Login to Consulthink registry (docker hub)
       run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
-    - name: Build Java/maven docker-builder image
+    - name: Build Java/maven docker CI/CD image
       run: docker build ./maven/ --file maven/Dockerfile --tag consulthink/maven-builder:latest
     - name: Login to Consulthink registry (docker hub)
       run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
-    - name: Build Android/gradle docker-builder image
+    - name: Build Android/gradle docker CI/CD image
       run: docker build ./android-sdk/ --file android-sdk/Dockerfile --tag consulthink/android-builder:latest
     - name: Login to Consulthink registry (docker hub)
       run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
@@ -56,3 +56,16 @@ jobs:
       run: docker push consulthink/android-builder:latest
     - name: Cleanup
       run: docker logout && docker rmi consulthink/android-builder:latest
+
+  ci-qa:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build QA checker docker CI/CD image
+      run: docker build ./qa/ --file qa/Dockerfile --tag consulthink/qa-checker:latest
+    - name: Login to Consulthink registry (docker hub)
+      run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+    - name: Push to Consulthink registry (docker hub)
+      run: docker push consulthink/qa-checker:latest
+    - name: Cleanup
+      run: docker logout && docker rmi consulthink/qa-checker:latest
