@@ -24,6 +24,7 @@ ENV SONAR_USER_HOME=${SONAR_SCANNER_HOME}/.sonar
 ENV PATH=${JAVA_HOME}/bin:${SONAR_SCANNER_HOME}/bin:${NODEJS_HOME}/bin:${DEPENDENCY_CHECK_HOME}/bin:${PATH}
 ENV NODE_PATH=${NODEJS_HOME}/lib/node_modules
 ENV SRC_PATH=/usr/src
+ENV SDKMAN_DIR=/opt/sdkman
 
 WORKDIR /opt
 
@@ -78,9 +79,9 @@ RUN echo "no" | avdmanager create avd -n Android31 -k "system-images;android-31;
 RUN echo "no" | avdmanager create avd -n Android30 -k "system-images;android-30;google_apis;x86_64"
 
 # Install Kotlin SDK
-RUN curl -s https://get.sdkman.io | bash
-RUN source "/root/.sdkman/bin/sdkman-init.sh"
-RUN sdk install kotlin
+#RUN curl -s https://get.sdkman.io | bash
+#RUN bash -c 'source "$SDKMAN_DIR/bin/sdkman-init.sh"'
+#RUN sdk install kotlin
 
 RUN mkdir /workspace
 WORKDIR /workspace
