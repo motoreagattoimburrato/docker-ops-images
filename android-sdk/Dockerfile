@@ -70,13 +70,10 @@ RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "build-tools;30.0.
 RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "platform-tools"
 RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "platforms;android-30"
 RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "system-images;android-30;google_apis;x86_64"
-RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "system-images;android-30;default;arm64-v8a"
-RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "system-images;android-31;default;arm64-v8a"
-RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "system-images;android-30;google_apis;x86_64"
 RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "system-images;android-31;google_apis;x86_64"
 
-RUN echo "no" | avdmanager create avd -n Android31 -k "system-images;android-31;google_apis;x86_64"
-RUN echo "no" | avdmanager create avd -n Android30 -k "system-images;android-30;google_apis;x86_64"
+#RUN echo "no" | avdmanager create avd -n Android31 -k "system-images;android-31;google_apis;x86_64"
+#RUN echo "no" | avdmanager create avd -n Android30 -k "system-images;android-30;google_apis;x86_64"
 
 # Install Kotlin SDK
 #RUN curl -s https://get.sdkman.io | bash
