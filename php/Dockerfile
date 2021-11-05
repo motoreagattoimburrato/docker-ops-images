@@ -24,7 +24,7 @@ RUN apt-get update \
                   php7.4-interbase php7.4-intl php7.4-json php7.4-ldap php7.4-mbstring php7.4-mysql \
                   php7.4-odbc php7.4-opcache php7.4-pgsql php7.4-phpdbg php7.4-pspell php7.4-readline \
                   php7.4-snmp php7.4-soap php7.4-sqlite3 php7.4-sybase php7.4-tidy php7.4-xml php7.4-xmlrpc \
-                  php7.4-xsl php7.4-zip php-codecoverage phpunit \
+                  php7.4-xsl php7.4-zip php-xdebug php-codecoverage phpunit \
     && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g typescript@3.7.5 \
