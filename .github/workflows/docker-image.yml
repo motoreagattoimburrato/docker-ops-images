@@ -12,83 +12,84 @@ jobs:
       docker_workdir: base
     runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v2
-    - name: Build docker CI/CD image
-      run: docker build ./$docker_workdir/ --file ./$docker_workdir/Dockerfile --tag "${docker_image_name}:${docker_image_version}"
-    - name: Login to Consulthink registry (docker hub)
-      run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
-    - name: Push to Consulthink registry (docker hub)
-      run: docker push "${docker_image_name}:${docker_image_version}"
-    - name: Cleanup
-      run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
+      - uses: actions/checkout@v2
+      - name: Build docker CI/CD image
+        run: docker build ./$docker_workdir/ --file ./$docker_workdir/Dockerfile --tag "${docker_image_name}:${docker_image_version}"
+      - name: Login to Consulthink registry (docker hub)
+        run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+      - name: Push to Consulthink registry (docker hub)
+        run: docker push "${docker_image_name}:${docker_image_version}"
+      - name: Cleanup
+        run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
 
   ci-go:
     env:
-      docker_image_name: 'consulthink/go-builder'
+      docker_image_name: 'consulthink/go-ops'
       docker_image_version: latest
       docker_workdir: go
     needs: ci-base
     runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v2
-    - name: Build docker CI/CD image
-      run: docker build ./$docker_workdir/ --file ./$docker_workdir/Dockerfile --tag "${docker_image_name}:${docker_image_version}"
-    - name: Login to Consulthink registry (docker hub)
-      run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
-    - name: Push to Consulthink registry (docker hub)
-      run: docker push "${docker_image_name}:${docker_image_version}"
-    - name: Cleanup
-      run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
+      - uses: actions/checkout@v2
+      - name: Build docker CI/CD image
+        run: docker build ./$docker_workdir/ --file ./$docker_workdir/Dockerfile --tag "${docker_image_name}:${docker_image_version}"
+      - name: Login to Consulthink registry (docker hub)
+        run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+      - name: Push to Consulthink registry (docker hub)
+        run: docker push "${docker_image_name}:${docker_image_version}"
+      - name: Cleanup
+        run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
 
   ci-php:
     env:
-      docker_image_name: 'consulthink/php-builder'
+      docker_image_name: 'consulthink/php-ops'
       docker_image_version: latest
       docker_workdir: php
     needs: ci-base
     runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v2
-    - name: Build docker CI/CD image
-      run: docker build ./$docker_workdir/ --file ./$docker_workdir/Dockerfile --tag "${docker_image_name}:${docker_image_version}"
-    - name: Login to Consulthink registry (docker hub)
-      run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
-    - name: Push to Consulthink registry (docker hub)
-      run: docker push "${docker_image_name}:${docker_image_version}"
-    - name: Cleanup
-      run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
+      - uses: actions/checkout@v2
+      - name: Build docker CI/CD image
+        run: docker build ./$docker_workdir/ --file ./$docker_workdir/Dockerfile --tag "${docker_image_name}:${docker_image_version}"
+      - name: Login to Consulthink registry (docker hub)
+        run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+      - name: Push to Consulthink registry (docker hub)
+        run: docker push "${docker_image_name}:${docker_image_version}"
+      - name: Cleanup
+        run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
 
   ci-maven:
     env:
-      docker_image_name: 'consulthink/maven-builder'
+      docker_image_name: 'consulthink/maven-ops'
       docker_image_version: latest
       docker_workdir: maven
     needs: ci-base
     runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v2
-    - name: Build docker CI/CD image
-      run: docker build ./$docker_workdir/ --file ./$docker_workdir/Dockerfile --tag "${docker_image_name}:${docker_image_version}"
-    - name: Login to Consulthink registry (docker hub)
-      run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
-    - name: Push to Consulthink registry (docker hub)
-      run: docker push "${docker_image_name}:${docker_image_version}"
-    - name: Cleanup
-      run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
+      - uses: actions/checkout@v2
+      - name: Build docker CI/CD image
+        run: docker build ./$docker_workdir/ --file ./$docker_workdir/Dockerfile --tag "${docker_image_name}:${docker_image_version}"
+      - name: Login to Consulthink registry (docker hub)
+        run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+      - name: Push to Consulthink registry (docker hub)
+        run: docker push "${docker_image_name}:${docker_image_version}"
+      - name: Cleanup
+        run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
 
   ci-android:
-      docker_image_name: 'consulthink/android-builder'
+    env:
+      docker_image_name: 'consulthink/android-ops'
       docker_image_version: latest
       docker_workdir: android
     needs: ci-base
     runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v2
-    - name: Build docker CI/CD image
-      run: docker build ./$docker_workdir/ --file ./$docker_workdir/Dockerfile --tag "${docker_image_name}:${docker_image_version}"
-    - name: Login to Consulthink registry (docker hub)
-      run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
-    - name: Push to Consulthink registry (docker hub)
-      run: docker push "${docker_image_name}:${docker_image_version}"
-    - name: Cleanup
-      run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
+      - uses: actions/checkout@v2
+      - name: Build docker CI/CD image
+        run: docker build ./$docker_workdir/ --file ./$docker_workdir/Dockerfile --tag "${docker_image_name}:${docker_image_version}"
+      - name: Login to Consulthink registry (docker hub)
+        run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+      - name: Push to Consulthink registry (docker hub)
+        run: docker push "${docker_image_name}:${docker_image_version}"
+      - name: Cleanup
+        run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
