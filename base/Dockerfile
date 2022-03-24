@@ -21,8 +21,8 @@ ENV SRC_PATH=/usr/src
 
 WORKDIR /opt
 
-# Workout TZdata
-ENV TZ=Europe/Rome
+# Workout TZ database setup
+ENV TZ=Etc/UTC
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Minimum requirements
