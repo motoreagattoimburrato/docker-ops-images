@@ -1,8 +1,17 @@
-FROM openjdk:11-buster as builder
+FROM ubuntu:focal
 
+USER root
+
+# KICS envs
 ENV JAVA_HOME=/usr/local/openjdk-11
-ENV DEPENDENCY_CHECK_HOME=/opt/dependency-check
+
+# Sonar scanner envs
 ENV SONAR_SCANNER_HOME=/opt/sonar-scanner
+
+# Dependency Check envs
+ENV DEPENDENCY_CHECK_HOME=/opt/dependency-check
+
+
 ENV XDG_CONFIG_HOME=/tmp
 ENV SONAR_SCANNER_HOME=${SONAR_SCANNER_HOME}
 ENV SONAR_USER_HOME=${SONAR_SCANNER_HOME}/.sonar
@@ -15,6 +24,7 @@ WORKDIR /opt
 RUN apt-get update \
     && apt-get -y install git jq vim wget unzip gnupg bash shellcheck curl ca-certificates \
                           build-essential nodejs npm python3 python3-pip tar ansible ansible-lint \
+                          openjdk-11
     && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g typescript@3.7.5 \
@@ -34,6 +44,13 @@ RUN wget -q -O /opt/sonar-scanner.zip https://binaries.sonarsource.com/Distribut
     && rm -rf sonar-scanner.zip sonar-scanner.zip.asc \
     && mv sonar-scanner-4.6.0.2311-linux ${SONAR_SCANNER_HOME}
 
+RUN mkdir /workspace
+WORKDIR /workspace
+
+# Missing CA chain
 RUN curl https://www.actalis.it/documenti-it/actalisorganizationvalidatedservercag3.aspx > /usr/local/share/ca-certificates/cacerts.crt && update-ca-certificates
+
+# Cleanup
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 CMD ["/bin/bash"]
