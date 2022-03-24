@@ -28,7 +28,8 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # Minimum requirements
 RUN apt-get update && apt-get -y install \
       git jq vim wget unzip gnupg bash shellcheck curl ca-certificates openjdk-11-jdk maven \
-      build-essential nodejs npm python3 python3-pip tar ansible ansible-lint
+      build-essential nodejs npm python3 python3-pip tar ansible ansible-lint \
+      zip bzip2 unzip xz-utils
 
 RUN npm install -g typescript@3.7.5 && pip3 install --no-cache-dir pylint
 
