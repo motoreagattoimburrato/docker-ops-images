@@ -22,7 +22,7 @@ ENV SRC_PATH=/usr/src
 WORKDIR /opt
 
 RUN apt-get update && apt-get -y install \
-      git jq vim wget unzip gnupg bash shellcheck curl ca-certificates openjdk-11 maven \
+      git jq vim wget unzip gnupg bash shellcheck curl ca-certificates openjdk-11-jdk maven \
       build-essential nodejs npm python3 python3-pip tar ansible ansible-lint
 
 RUN npm install -g typescript@3.7.5 && pip3 install --no-cache-dir pylint
