@@ -1,4 +1,4 @@
-name: Docker Images CI
+name: Release Docker images pipeline
 
 on:
   push:
@@ -9,6 +9,7 @@ on:
 
 jobs:
   ci-base:
+    name: OPS - create base docker image
     env:
       docker_image_name: 'lukecottage/base-ops'
       docker_image_version: latest
@@ -22,10 +23,11 @@ jobs:
         run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
       - name: Push to registry (docker hub)
         run: docker push "${docker_image_name}:${docker_image_version}"
-      - name: Cleanup
-        run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
+      #- name: Cleanup
+      #  run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
 
   ci-go:
+    name: OPS - create go docker image
     env:
       docker_image_name: 'lukecottage/go-ops'
       docker_image_version: latest
@@ -40,10 +42,11 @@ jobs:
         run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
       - name: Push to registry (docker hub)
         run: docker push "${docker_image_name}:${docker_image_version}"
-      - name: Cleanup
-        run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
+      #- name: Cleanup
+      #  run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
 
   ci-php:
+    name: OPS - create php docker image
     env:
       docker_image_name: 'lukecottage/php-ops'
       docker_image_version: latest
@@ -58,14 +61,15 @@ jobs:
         run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
       - name: Push to registry (docker hub)
         run: docker push "${docker_image_name}:${docker_image_version}"
-      - name: Cleanup
-        run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
+      #- name: Cleanup
+      #  run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
 
   ci-java:
+    name: OPS - create java docker image
     env:
-      docker_image_name: 'lukecottage/maven-ops'
+      docker_image_name: 'lukecottage/java-ops'
       docker_image_version: latest
-      docker_workdir: maven
+      docker_workdir: java
     needs: ci-base
     runs-on: ubuntu-20.04
     steps:
@@ -76,5 +80,5 @@ jobs:
         run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
       - name: Push to registry (docker hub)
         run: docker push "${docker_image_name}:${docker_image_version}"
-      - name: Cleanup
-        run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
+      #- name: Cleanup
+      #  run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
