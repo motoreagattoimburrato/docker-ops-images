@@ -18,6 +18,7 @@ jobs:
         run: mkdir -p results-dir
 
       - name: Create KICS config file
+        continue-on-error: true
         run: |
           cat <<EOF >>kics.config
           {
