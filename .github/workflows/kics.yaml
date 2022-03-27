@@ -33,12 +33,12 @@ jobs:
       #--exclude-categories Encryption
       - name: Run KICS scan
         run: kics --no-progress --ci
-        --ignore-on-exit all
-        --type Dockerfile
-        --report-formats json,sarif
-        --output-name results
-        --output-path ./reports
-        --path .
+              --ignore-on-exit all
+              --type Dockerfile
+              --report-formats json,sarif
+              --output-name results
+              --output-path ./reports
+              --path .
 
 
       - name: DEBUG - check if files exists
