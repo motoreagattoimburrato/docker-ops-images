@@ -10,7 +10,7 @@ FROM lukecottage/base-ops:latest
 #ENV NODE_PATH=${NODEJS_HOME}/lib/node_modules
 #ENV SRC_PATH=/usr/src
 
-RUN apt-get update && apt-get -y install gradle
+RUN apt-get update && apt-get -y install maven gradle
 
 # Cleanup
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

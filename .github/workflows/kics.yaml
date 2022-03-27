@@ -3,13 +3,24 @@ name: KICS scan
 on:
   push:
     branches:
-      - 'main'
-      - 'feature/*'
+      - '*'
 
 jobs:
-  kics-job:
+  qa:
+    name: QA - check Dockerfiles syntax
     runs-on: ubuntu-20.04
-    name: kics-action
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build docker CI/CD image
+        run: |
+          docker build ./base/ --file ./base/Dockerfile --tag "lukecottage/base-ops:latest"
+          docker build ./go/ --file ./base/Dockerfile --tag "lukecottage/go-ops:latest"
+          docker build ./php/ --file ./base/Dockerfile --tag "lukecottage/php-ops:latest"
+          docker build ./java/ --file ./base/Dockerfile --tag "lukecottage/kava-ops:latest"
+
+  kics:
+    runs-on: ubuntu-20.04
+    name: QA - KICS scan
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2

@@ -2,7 +2,10 @@ name: Docker Images CI
 
 on:
   push:
-    branches: [ main ]
+    #branches: [ main ]
+    tags:
+      - '*'
+      - '**'
 
 jobs:
   ci-base:
@@ -58,7 +61,7 @@ jobs:
       - name: Cleanup
         run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
 
-  ci-maven:
+  ci-java:
     env:
       docker_image_name: 'lukecottage/maven-ops'
       docker_image_version: latest
