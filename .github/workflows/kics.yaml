@@ -30,7 +30,8 @@ jobs:
             "payload-path": "file path to store source internal representation in JSON format",
             "report-formats": "json,sarif",
             "type": "Dockerfile",
-            "verbose": true
+            "verbose": true,
+            "silent": true
           }
           EOF
 
