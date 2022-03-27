@@ -29,30 +29,17 @@ jobs:
       - name: Create report folder output
         run: mkdir -p ./reports
 
-      - name: Create KICS config
-        run: |
-          cat <<EOF >>kics.config
-          {
-            "exclude-categories": "Encryption",
-            "log-file": true,
-            "minimal-ui": false,
-            "no-color": false,
-            "no-progress": true,
-            "output-path": "./reports",
-            "output-name": "results",
-            "report-formats": "json,sarif",
-            "type": "Dockerfile",
-            "silent": true,
-            "path": "."
-          }
-          EOF
+      # see: https://docs.kics.io/latest/commands/
+      #--exclude-categories Encryption
+      - name: Run KICS scan
+        run: kics --no-progress --ci
+        --ignore-on-exit all
+        --type Dockerfile
+        --report-formats json,sarif
+        --output-name results
+        --output-path ./reports
+        --path .
 
-      - name: Run KICS Scan (using configfile)
-        continue-on-error: true
-        uses: checkmarx/kics-action@v1.4
-        with:
-          path: '.'
-          config_path: ./kics.config
 
       - name: DEBUG - check if files exists
         run: |
