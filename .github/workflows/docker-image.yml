@@ -7,7 +7,7 @@ on:
 jobs:
   ci-base:
     env:
-      docker_image_name: 'lukecottage/base'
+      docker_image_name: 'lukecottage/base-ops'
       docker_image_version: latest
       docker_workdir: base
     runs-on: ubuntu-20.04

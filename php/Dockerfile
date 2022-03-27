@@ -1,4 +1,4 @@
-FROM lukecottage/base:latest
+FROM lukecottage/base-ops:latest
 
 #ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 #ENV DEPENDENCY_CHECK_HOME=/opt/dependency-check
@@ -21,5 +21,8 @@ RUN apt-get update && apt-get -y install \
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer && chmod a+x /usr/local/bin/composer
+
+# Cleanup
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 CMD ["/bin/bash"]
