@@ -21,7 +21,7 @@ jobs:
   kics:
     name: QA - KICS scan
     runs-on: ubuntu-20.04
-    #container: checkmarx/kics:latest
+    container: checkmarx/kics:latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
