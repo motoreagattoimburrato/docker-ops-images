@@ -1,4 +1,5 @@
 FROM ubuntu:focal
+HEALTHCHECK --interval=30s --timeout=5s CMD echo "Hello World" || exit 1
 
 USER root
 
