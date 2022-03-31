@@ -1,0 +1,88 @@
+name: QA and OPS pipeline
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  qa-base:
+    name: QA - verify BASE Dockerfile
+    env:
+      docker_image_name: 'lukecottage/base-ops'
+      docker_image_version: latest
+      docker_file_iac: Dockerfile-base
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build docker CI/CD image
+        run: docker build ./ --file ./$docker_file_iac --tag "${docker_image_name}:${docker_image_version}"
+
+  qa-full:
+    name: QA - verify FULL Dockerfile
+    env:
+      docker_image_name: 'lukecottage/full-ops'
+      docker_image_version: latest
+      docker_file_iac: Dockerfile-full
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build docker CI/CD image
+        run: docker build ./ --file ./$docker_file_iac --tag "${docker_image_name}:${docker_image_version}"
+
+  qa-php:
+    name: QA - verify PHP Dockerfile
+    env:
+      docker_image_name: 'lukecottage/php-ops'
+      docker_image_version: latest
+      docker_file_iac: Dockerfile-php
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build docker CI/CD image
+        run: docker build ./ --file ./$docker_file_iac --tag "${docker_image_name}:${docker_image_version}"
+
+  qa-java:
+    name: QA - verify JAVA Dockerfile
+    env:
+      docker_image_name: 'lukecottage/java-ops'
+      docker_image_version: latest
+      docker_file_iac: Dockerfile-java
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build docker CI/CD image
+        run: docker build ./ --file ./$docker_file_iac --tag "${docker_image_name}:${docker_image_version}"
+
+  kics:
+    name: QA - KICS scan
+    runs-on: ubuntu-20.04
+    container: checkmarx/kics:latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Create report folder output
+        run: mkdir -p ./reports
+
+      # see: https://docs.kics.io/latest/commands/
+      #--exclude-categories Encryption
+      - name: Run KICS scan
+        run: kics scan --no-progress --ci
+              --ignore-on-exit all
+              --type Dockerfile
+              --report-formats json,sarif
+              --output-name results
+              --output-path ./reports
+              --path .
+
+
+      - name: DEBUG - check if files exists
+        run: |
+          ls -lah .
+          ls -lah ./reports
+
+      - name: Upload SARIF file (Github CodeQL)
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: ./reports/results.sarif

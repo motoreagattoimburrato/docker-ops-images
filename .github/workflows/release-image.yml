@@ -9,16 +9,16 @@ on:
 
 jobs:
   ci-base:
-    name: OPS - create base docker image
+    name: OPS - create BASE docker image
     env:
       docker_image_name: 'lukecottage/base-ops'
       docker_image_version: latest
-      docker_workdir: base
+      docker_file_iac: Dockerfile-base
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Build docker CI/CD image
-        run: docker build ./$docker_workdir/ --file ./$docker_workdir/Dockerfile --tag "${docker_image_name}:${docker_image_version}"
+        run: docker build ./ --file ./$docker_file_iac --tag "${docker_image_name}:${docker_image_version}"
       - name: Login to registry (docker hub)
         run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
       - name: Push to registry (docker hub)
@@ -26,18 +26,17 @@ jobs:
       #- name: Cleanup
       #  run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
 
-  ci-go:
-    name: OPS - create go docker image
+  ci-full:
+    name: OPS - create FULL docker image
     env:
-      docker_image_name: 'lukecottage/go-ops'
+      docker_image_name: 'lukecottage/full-ops'
       docker_image_version: latest
-      docker_workdir: go
-    needs: ci-base
+      docker_file_iac: Dockerfile-full
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Build docker CI/CD image
-        run: docker build ./$docker_workdir/ --file ./$docker_workdir/Dockerfile --tag "${docker_image_name}:${docker_image_version}"
+        run: docker build ./ --file ./$docker_file_iac --tag "${docker_image_name}:${docker_image_version}"
       - name: Login to registry (docker hub)
         run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
       - name: Push to registry (docker hub)
@@ -46,17 +45,16 @@ jobs:
       #  run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
 
   ci-php:
-    name: OPS - create php docker image
+    name: OPS - create PHP docker image
     env:
       docker_image_name: 'lukecottage/php-ops'
       docker_image_version: latest
-      docker_workdir: php
-    needs: ci-base
+      docker_file_iac: Dockerfile-php
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Build docker CI/CD image
-        run: docker build ./$docker_workdir/ --file ./$docker_workdir/Dockerfile --tag "${docker_image_name}:${docker_image_version}"
+        run: docker build ./ --file ./$docker_file_iac --tag "${docker_image_name}:${docker_image_version}"
       - name: Login to registry (docker hub)
         run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
       - name: Push to registry (docker hub)
@@ -65,17 +63,16 @@ jobs:
       #  run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
 
   ci-java:
-    name: OPS - create java docker image
+    name: OPS - create JAVA docker image
     env:
       docker_image_name: 'lukecottage/java-ops'
       docker_image_version: latest
-      docker_workdir: java
-    needs: ci-base
+      docker_file_iac: Dockerfile-java
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Build docker CI/CD image
-        run: docker build ./$docker_workdir/ --file ./$docker_workdir/Dockerfile --tag "${docker_image_name}:${docker_image_version}"
+        run: docker build ./ --file ./$docker_file_iac --tag "${docker_image_name}:${docker_image_version}"
       - name: Login to registry (docker hub)
         run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
       - name: Push to registry (docker hub)
