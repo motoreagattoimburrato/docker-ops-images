@@ -23,8 +23,6 @@ jobs:
         run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
       - name: Push to registry (docker hub)
         run: docker push "${docker_image_name}:${docker_image_version}"
-      #- name: Cleanup
-      #  run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
 
   ci-full:
     name: OPS - create FULL docker image
@@ -41,8 +39,6 @@ jobs:
         run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
       - name: Push to registry (docker hub)
         run: docker push "${docker_image_name}:${docker_image_version}"
-      #- name: Cleanup
-      #  run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
 
   ci-php:
     name: OPS - create PHP docker image
@@ -59,8 +55,6 @@ jobs:
         run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
       - name: Push to registry (docker hub)
         run: docker push "${docker_image_name}:${docker_image_version}"
-      #- name: Cleanup
-      #  run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
 
   ci-java:
     name: OPS - create JAVA docker image
@@ -77,5 +71,3 @@ jobs:
         run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
       - name: Push to registry (docker hub)
         run: docker push "${docker_image_name}:${docker_image_version}"
-      #- name: Cleanup
-      #  run: docker logout && docker rmi "${docker_image_name}:${docker_image_version}"
