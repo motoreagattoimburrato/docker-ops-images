@@ -74,7 +74,7 @@ jobs:
               --report-formats json,sarif
               --output-name results
               --output-path ./reports
-              --path .
+              --path ./Dockerfile-*
 
 
       - name: DEBUG - check if files exists
