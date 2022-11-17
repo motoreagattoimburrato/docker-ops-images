@@ -21,4 +21,18 @@ apt-get -y install \
   bzip2 \
   unzip \
   xz-utils \
-  openjdk-11-jdk
+  openjdk-11-jdk \
+  python3 \
+  python3-pip \
+  python3-setuptools \
+  apache2-utils \
+  apt-transport-https \
+  htop \
+  telnet \
+  lsb-release \
+  ntp \
+  tcpdump \
+  siege \
+  ncat \
+  nmap \
+  net-tools

@@ -1,4 +1,4 @@
-FROM ubuntu:focal
+FROM ubuntu:jammy
 HEALTHCHECK --interval=30s --timeout=5s CMD echo "Hello World" || exit 1
 
 USER root
@@ -66,6 +66,9 @@ RUN /opt/scripts/install_dependency-check.sh $DEPENDENCY_CHECK_URL $DEPENDENCY_C
 
 # Install Sonarqube Scanner
 RUN /opt/scripts/install_sonar-scanner.sh $SONAR_SCANNER_URL $SONAR_SCANNER_HOME $SONAR_SCANNER_ASC $SONAR_SCANNER_PUBKEY
+
+# Install Chef InSpec
+RUN /opt/scripts/install_inspec.sh
 
 # Create OPS user and workspace
 RUN useradd -rm -d /home/operator -s /bin/bash -g root -G sudo -u 1042 operator
