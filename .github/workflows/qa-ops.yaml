@@ -1,11 +1,11 @@
 name: QA and OPS pipeline
 
 on:
+  schedule:
+    - cron: '0 10 * * 7'
   push:
     branches:
       - '*'
-  schedule:
-    - cron: '0 10 * * 7'
 
 jobs:
   qa-base:
