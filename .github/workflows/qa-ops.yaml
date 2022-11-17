@@ -14,7 +14,7 @@ jobs:
       docker_image_name: 'lukecottage/base-ops'
       docker_image_version: latest
       docker_file_iac: base/Dockerfile
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build docker CI/CD image
@@ -26,7 +26,7 @@ jobs:
       docker_image_name: 'lukecottage/full-ops'
       docker_image_version: latest
       docker_file_iac: full/Dockerfile
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build docker CI/CD image
@@ -38,7 +38,7 @@ jobs:
       docker_image_name: 'lukecottage/php-ops'
       docker_image_version: latest
       docker_file_iac: php/Dockerfile
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build docker CI/CD image
@@ -50,7 +50,7 @@ jobs:
       docker_image_name: 'lukecottage/java-ops'
       docker_image_version: latest
       docker_file_iac: java/Dockerfile
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Build docker CI/CD image
@@ -58,7 +58,7 @@ jobs:
 
   kics:
     name: QA - KICS scan
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     container: checkmarx/kics:latest
     steps:
       - name: Checkout repo

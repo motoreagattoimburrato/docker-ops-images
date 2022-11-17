@@ -30,7 +30,6 @@ apt-get -y install \
   htop \
   telnet \
   lsb-release \
-  ntp \
   tcpdump \
   siege \
   ncat \
