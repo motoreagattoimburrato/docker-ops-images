@@ -13,7 +13,7 @@ jobs:
     env:
       docker_image_name: 'lukecottage/base-ops'
       docker_image_version: latest
-      docker_file_iac: Dockerfile-base
+      docker_file_iac: base/Dockerfile
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -36,7 +36,7 @@ jobs:
     env:
       docker_image_name: 'lukecottage/full-ops'
       docker_image_version: latest
-      docker_file_iac: Dockerfile-full
+      docker_file_iac: full/Dockerfile
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -59,7 +59,7 @@ jobs:
     env:
       docker_image_name: 'lukecottage/php-ops'
       docker_image_version: latest
-      docker_file_iac: Dockerfile-php
+      docker_file_iac: php/Dockerfile
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -82,7 +82,7 @@ jobs:
     env:
       docker_image_name: 'lukecottage/java-ops'
       docker_image_version: latest
-      docker_file_iac: Dockerfile-java
+      docker_file_iac: java/Dockerfile
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
