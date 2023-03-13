@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+mkdir -p /etc/apt/keyrings
+
 apt-get -y install \
   git \
   jq \
@@ -34,4 +36,17 @@ apt-get -y install \
   siege \
   ncat \
   nmap \
-  net-tools
+  net-tools \
+  sshpass \
+  procps \
+  file
+
+
+
+# Homebrew
+curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash
+echo '# Set PATH, MANPATH, etc., for Homebrew.' >> /root/.profile
+echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /root/.bashrc 
+echo '# Set PATH, MANPATH, etc., for Homebrew.' >>  /home/operator/.profile
+echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>  /home/operator/.bashrc 
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"

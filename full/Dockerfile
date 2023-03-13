@@ -76,6 +76,18 @@ RUN /opt/scripts/install_sonar-scanner.sh $SONAR_SCANNER_URL $SONAR_SCANNER_HOME
 # Install Chef InSpec
 RUN /opt/scripts/install_inspec.sh
 
+# Install kubernetes CLI (and utilies/plugins)
+RUN /opt/scripts/install_kubectl.sh
+
+# Install Helm CLI
+RUN /opt/scripts/install_helm.sh
+
+# Install FluxCD CLI
+RUN /opt/scripts/install_fluxcd.sh
+
+# Install Azure CLI
+RUN /opt/scripts/install_azurecli.sh
+
 # Create OPS user and workspace
 RUN useradd -rm -d /home/operator -s /bin/bash -g root -G sudo -u 1042 operator
 #RUN useradd -ms /bin/bash operator
