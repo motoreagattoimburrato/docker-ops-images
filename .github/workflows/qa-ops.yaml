@@ -20,42 +20,6 @@ jobs:
       - name: Build docker CI/CD image
         run: docker build ./ --file ./$docker_file_iac --tag "${docker_image_name}:${docker_image_version}"
 
-  qa-full:
-    name: QA - verify FULL Dockerfile
-    env:
-      docker_image_name: 'lukecottage/full-ops'
-      docker_image_version: latest
-      docker_file_iac: full/Dockerfile
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build docker CI/CD image
-        run: docker build ./ --file ./$docker_file_iac --tag "${docker_image_name}:${docker_image_version}"
-
-  qa-php:
-    name: QA - verify PHP Dockerfile
-    env:
-      docker_image_name: 'lukecottage/php-ops'
-      docker_image_version: latest
-      docker_file_iac: php/Dockerfile
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build docker CI/CD image
-        run: docker build ./ --file ./$docker_file_iac --tag "${docker_image_name}:${docker_image_version}"
-
-  qa-java:
-    name: QA - verify JAVA Dockerfile
-    env:
-      docker_image_name: 'lukecottage/java-ops'
-      docker_image_version: latest
-      docker_file_iac: java/Dockerfile
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build docker CI/CD image
-        run: docker build ./ --file ./$docker_file_iac --tag "${docker_image_name}:${docker_image_version}"
-
   kics:
     name: QA - KICS scan
     runs-on: ubuntu-latest

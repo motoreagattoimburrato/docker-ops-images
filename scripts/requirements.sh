@@ -39,9 +39,9 @@ apt-get -y install \
   net-tools \
   sshpass \
   procps \
-  file
-
-
+  file \
+  maven \
+  gradle
 
 # Homebrew
 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash
