@@ -7,13 +7,14 @@ on:
       - '*'
       - '**'
 
+env:
+  docker_image_name: 'lukecottage/ops-image'
+  docker_image_version: latest
+  docker_file_iac: Dockerfile
+
 jobs:
   ci-base:
     name: OPS - create BASE docker image
-    env:
-      docker_image_name: 'lukecottage/ops-image'
-      docker_image_version: latest
-      docker_file_iac: Dockerfile
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

@@ -3,8 +3,8 @@ HEALTHCHECK --interval=30s --timeout=5s CMD echo "Hello World" || exit 1
 
 LABEL "author"="Luca Capanna"
 LABEL "licenze"="MIT License"
-LABEL "image.version"="0.1"
-LABEL "image.name"="lukecottage/base-ops"
+LABEL "image.version"="0.4.0"
+LABEL "image.name"="lukecottage/ops-image"
 
 ENV PATH $PATH:/home/linuxbrew/.linuxbrew/bin
 
@@ -16,20 +16,20 @@ ARG KICS_VERSION=v1.5.5
 ENV KICS_HOME=/opt/kics
 
 # Sonar scanner envs
-ARG SONAR_SCANNER_URL=https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.0.2311-linux.zip
-ARG SONAR_SCANNER_ASC=https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.0.2311-linux.zip.asc
+ARG SONAR_SCANNER_URL=https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip
+ARG SONAR_SCANNER_ASC=https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip.asc
 ARG SONAR_SCANNER_PUBKEY=https://binaries.sonarsource.com/sonarsource-public.key
 ENV SONAR_SCANNER_HOME=/usr/local/sonar-scanner
 ENV SONAR_USER_HOME=${SONAR_SCANNER_HOME}/.sonar
 
 # Dependency-Check envs
-ARG DEPENDENCY_CHECK_URL=https://github.com/jeremylong/DependencyCheck/releases/download/v7.0.1/dependency-check-7.0.1-release.zip
-ARG DEPENDENCY_CHECK_ASC=https://github.com/jeremylong/DependencyCheck/releases/download/v7.0.1/dependency-check-7.0.1-release.zip.asc
+ARG DEPENDENCY_CHECK_URL=https://github.com/jeremylong/DependencyCheck/releases/download/v8.3.1/dependency-check-8.3.1-release.zip
+ARG DEPENDENCY_CHECK_ASC=https://github.com/jeremylong/DependencyCheck/releases/download/v8.3.1/dependency-check-8.3.1-release.zip.asc
 ENV DEPENDENCY_CHECK_HOME=/usr/local/dependency-check
 
 # GOlang envs
-ARG GOLANG_URL=https://go.dev/dl/go1.16.15.linux-amd64.tar.gz
-ARG GOLANG_SHA256SUM=77c782a633186d78c384f972fb113a43c24be0234c42fef22c2d8c4c4c8e7475
+ARG GOLANG_URL=https://go.dev/dl/go1.20.5.linux-amd64.tar.gz
+ARG GOLANG_SHA256SUM=d7ec48cde0d3d2be2c69203bc3e0a44de8660b9c09a6e85c4732a3f7dc442612
 
 # System envs
 ENV PATH=${JAVA_HOME}/bin:${GOLANG_HOME}/bin:${SONAR_SCANNER_HOME}/bin::${DEPENDENCY_CHECK_HOME}/bin:${DEPENDENCY_CHECK_HOME}/bin:${KICS_HOME}/bin:${PATH}
@@ -52,6 +52,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # Minimum requirements
 RUN apt-get update
 RUN /opt/scripts/requirements.sh
+
+# Install Azure CLI
+RUN /opt/scripts/install_azurecli.sh
 
 # Install GOlang
 RUN /opt/scripts/install_golang.sh $GOLANG_URL

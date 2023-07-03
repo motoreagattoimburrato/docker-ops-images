@@ -2,18 +2,19 @@ name: QA and OPS pipeline
 
 on:
   schedule:
-    - cron: '0 10 * * 6'
+    - cron: '0 10 10 * *'
   push:
     branches:
       - '*'
 
+env:
+  docker_image_name: 'lukecottage/ops-image'
+  docker_image_version: latest
+  docker_file_iac: Dockerfile
+
 jobs:
   qa-base:
     name: QA - verify BASE Dockerfile
-    env:
-      docker_image_name: 'lukecottage/ops-image'
-      docker_image_version: latest
-      docker_file_iac: Dockerfile
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
