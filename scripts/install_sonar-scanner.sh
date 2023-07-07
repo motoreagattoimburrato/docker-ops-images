@@ -11,6 +11,5 @@ wget -q -O /opt/sonarsource-public.key $SS_PUBKEY
 gpg --import /opt/sonarsource-public.key
 gpg --verify /opt/sonar-scanner.zip.asc /opt/sonar-scanner.zip
 unzip sonar-scanner.zip
-rm -rf sonar-scanner.zip sonar-scanner.zip.asc
+rm -rf /opt/sonar-scanner.zip /opt/sonar-scanner.zip.asc
 mv sonar-scanner-*-linux $SS_HOME
-#mv sonar-scanner-4.6.0.2311-linux ${SS_HOME}

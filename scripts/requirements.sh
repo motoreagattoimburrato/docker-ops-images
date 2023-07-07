@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 mkdir -p /etc/apt/keyrings
-
+apt-get update
 apt-get -y install \
   git \
   jq \
@@ -50,3 +50,4 @@ echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /root/.bashrc
 echo '# Set PATH, MANPATH, etc., for Homebrew.' >>  /home/operator/.profile
 echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >>  /home/operator/.bashrc 
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+brew update

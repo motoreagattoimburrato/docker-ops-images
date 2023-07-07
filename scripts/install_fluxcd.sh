@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-brew install fluxctl
+curl -s https://fluxcd.io/install.sh | bash
+. <(flux completion bash)

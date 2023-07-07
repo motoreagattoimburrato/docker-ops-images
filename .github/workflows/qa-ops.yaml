@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build docker CI/CD image
-        run: docker build ./ --file ./$docker_file_iac --tag "${docker_image_name}:${docker_image_version}"
+        run: docker build ./ --file ./$docker_file_iac --build-arg DEVMODE="no" --tag "${docker_image_name}:${docker_image_version}"
 
   kics:
     name: QA - KICS scan

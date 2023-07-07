@@ -23,6 +23,7 @@ jobs:
       - name: Build docker CI/CD image
         run: |
           docker build ./ --file ./$docker_file_iac \
+            --build-arg DEVMODE="no" \
             --tag "${docker_image_name}:${docker_image_version}" \
             --tag "${docker_image_name}:${{ env.RELEASE_VERSION }}"
       - name: Login to registry (docker hub)
