@@ -117,7 +117,7 @@ USER operator
 RUN kubectl krew update ; kubectl krew install ktop kubesec-scan resource-capacity
 
 # Install and configure Oh My Zsh for "operator" user
-RUN /opt/scripts/zsh.sh
+#RUN /opt/scripts/zsh.sh
 
 WORKDIR /workspace
 CMD ["/bin/bash"]
