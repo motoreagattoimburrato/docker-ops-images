@@ -3,7 +3,7 @@ HEALTHCHECK --interval=30s --timeout=5s CMD echo "Hello World" || exit 1
 
 LABEL "author"="Luca Capanna"
 LABEL "licenze"="MIT License"
-LABEL "image.version"="0.5.1"
+LABEL "image.version"="0.5.2"
 LABEL "image.name"="lukecottage/ops-image"
 
 USER root
@@ -42,7 +42,7 @@ ENV SONAR_USER_HOME=${SONAR_SCANNER_HOME}/.sonar
 ARG SDKMAN_DIR=/usr/local/sdkman
 
 # System envs
-ENV PATH=/home/linuxbrew/.linuxbrew/bin:${JAVA_HOME}/bin:${GOLANG_HOME}/bin:${SONAR_SCANNER_HOME}/bin::${DEPENDENCY_CHECK_HOME}/bin:${DEPENDENCY_CHECK_HOME}/bin:${KICS_HOME}/bin:${SDKMAN_DIR}/bin:${PATH}
+ENV PATH=/home/linuxbrew/.linuxbrew/bin:${JAVA_HOME}/bin:${GOLANG_HOME}/bin:${SONAR_SCANNER_HOME}/bin::${DEPENDENCY_CHECK_HOME}/bin:${DEPENDENCY_CHECK_HOME}/bin:${KICS_HOME}/bin:${SDKMAN_DIR}/bin:${HOME}/.krew/bin:${PATH}
 ENV JAVA_HOME=/usr/local/openjdk-11
 #${NODEJS_HOME}/bin
 #ENV NODE_PATH=${NODEJS_HOME}/lib/node_modules
@@ -55,6 +55,7 @@ ENV XDG_CONFIG_HOME=/tmp
 WORKDIR /opt
 RUN mkdir -p /opt/scripts
 COPY ./scripts/* /opt/scripts/
+COPY ./configs/* /opt/configs/
 RUN chmod a+x /opt/scripts/*
 # Create OPS user and workspace
 RUN useradd -rm -d /home/operator -s /bin/bash -g root -G sudo -u 1042 operator
@@ -83,6 +84,9 @@ RUN /opt/scripts/install_dependency-check.sh $DEPENDENCY_CHECK_URL $DEPENDENCY_C
 # Install FluxCD CLI
 RUN /opt/scripts/install_fluxcd.sh
 
+# Install Hashicorp Tools CLI
+RUN /opt/scripts/install_hashicorp.sh
+
 # Install GOlang
 RUN /opt/scripts/install_golang.sh $GOLANG_URL $GOLANG_SHA256
 
@@ -103,9 +107,16 @@ RUN /opt/scripts/install_sonar-scanner.sh $SONAR_SCANNER_URL $SONAR_SCANNER_HOME
 
 ### END INSTALL PHASE
 
-# Cleanup and set defaults
+# Cleanup and setup operator user
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN echo "operator ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 USER operator
+# Configure Krew for "operator" user
+RUN kubectl krew update ; kubectl krew install ktop kubesec-scan resource-capacity
+
+# Install and configure Oh My Zsh for "operator" user
+RUN /opt/scripts/zsh.sh
+
 WORKDIR /workspace
 CMD ["/bin/bash"]

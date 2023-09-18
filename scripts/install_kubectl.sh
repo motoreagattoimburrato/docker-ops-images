@@ -14,6 +14,7 @@ kubectl version --client
 
 brew install derailed/k9s/k9s
 brew install krew
-kubectl krew update
-kubectl krew install ktop kubesec-scan resource-capacity
+# Do optional
+#kubectl krew update
+#kubectl krew install ktop kubesec-scan resource-capacity
 cd -

@@ -3,6 +3,7 @@
 mkdir -p /etc/apt/keyrings
 apt-get update
 apt-get -y install \
+  sudo \
   git \
   jq \
   vim \
@@ -41,7 +42,9 @@ apt-get -y install \
   procps \
   file \
   maven \
-  gradle
+  gradle \
+  zsh \
+  software-properties-common
 
 # Homebrew
 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash

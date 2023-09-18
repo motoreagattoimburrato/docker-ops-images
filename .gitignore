@@ -1,0 +1,5 @@
+configs/**
+scripts/setup_ansible.sh
+scripts/setup_ssh.sh
+stage/
+start_on_windows.sh

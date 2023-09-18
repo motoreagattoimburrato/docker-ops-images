@@ -50,16 +50,12 @@ Then, specifically, the following tools are installed.
 - [ ] Improve Python env
 - [ ] Install Ruby env
 - [ ] Install C/C++/C# env
-- [ ] maybe, using SDKMAN(?)
 - [ ] maybe, Android images(?) (hint: https://github.com/docker-android-sdk)
 - [x] include kubernets tools
 - [ ] include chaos tools
 - [ ] include more CLIs(?)
 - [ ] include rundeck(?)
 - [ ] include QA scripts
-- [ ] redo php (using SDKMAN)
-- [ ] redo java/gradle (using SDKMAN)
-
 
 ### Refs:
 
