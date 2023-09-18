@@ -55,8 +55,9 @@ ENV XDG_CONFIG_HOME=/tmp
 WORKDIR /opt
 RUN mkdir -p /opt/scripts
 COPY ./scripts/* /opt/scripts/
-COPY ./configs/* /opt/configs/
+#COPY ./configs/* /opt/configs/
 RUN chmod a+x /opt/scripts/*
+
 # Create OPS user and workspace
 RUN useradd -rm -d /home/operator -s /bin/bash -g root -G sudo -u 1042 operator
 #RUN useradd -ms /bin/bash operator
