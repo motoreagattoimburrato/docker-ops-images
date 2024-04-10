@@ -11,6 +11,8 @@ In the last year, for some reasons, I have been bounded to work on Windows Works
 
 So I create a Docker image with an UBUNTU LTS Image (22.04 LTS Jammy) that I can run as container/terminal in my laptop without manage an OS multiboot machine.
 
+NB: From April 2024, I'm using ChatGPT to help me and enhancement this project.
+
 ## Software installed
 
 The images has [these base tools installed](./scripts/requirements.sh)
@@ -22,8 +24,8 @@ Then, specifically, the following tools are installed.
 | [Openjdk](https://openjdk.org/) | 11 (UBUNTU release) |
 | [Sonar Scanner](https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/) | 4.8.0.2856 |
 | [OWASP Dependency Check](https://jeremylong.github.io/DependencyCheck/) | 8.3.1 |
-| [Checkmarx KICS](https://kics.io/) | 1.5.5 |
-| [GO lang SDK](https://go.dev/) | 1.20.5 |
+| [Checkmarx KICS](https://kics.io/) | 1.7.11 |
+| [GO lang SDK](https://go.dev/) | 1.21.5 |
 | [Apache Maven](https://maven.apache.org/) | 3.6 (UBUNTU release) |
 | [Kubectl](https://kubernetes.io/docs/tasks/tools/) | 1.27.3 |
 | [Helm](https://helm.sh/docs/intro/install/) | v3.12.1 |
