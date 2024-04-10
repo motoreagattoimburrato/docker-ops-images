@@ -9,20 +9,32 @@ while [ $# -gt 0 ]; do
         --asc-key=*) DEPENDENCY_CHECK_ASC="${1#*=}" ;;
         --pubkey=*) DEPENDENCY_CHECK_PUBKEY="${1#*=}" ;;
         --home=*) DEPENDENCY_CHECK_HOME="${1#*=}" ;;
-        *) echo "[$(date --utc) - ERROR]: Invalid argument $1" ;;
+        --help)
+            echo "Usage: ./install_dependency-check.sh --url=[URL] --asc-key=[ASC_KEY_URL] --pubkey=[PUBKEY] --home=[INSTALL_DIRECTORY]"
+            echo "Required arguments:"
+            echo "  --url        URL to the Dependency-Check ZIP file."
+            echo "  --asc-key    URL to the ASC signature file for verifying the download."
+            echo "  --pubkey     Public key ID or URL for GPG to verify the ASC signature."
+            echo "  --home       The directory where Dependency-Check will be installed."
+            echo "Optional arguments:"
+            echo "  --help       Display this help and exit."
+            exit 0
+            ;;
+        *) 
+            echo "[$(date --utc) - ERROR]: Invalid argument $1"
+            exit 1
+            ;;
     esac
     shift
 done
 
-# Abort if not super user
 if [ "$(id -u)" -ne 0 ]; then
     echo "[$(date --utc) - ERROR]: You must have administrative privileges to run this script or must be run as root."
-    echo "[$(date --utc) - ERROR]: Try 'sudo ./install_jdk.sh'"
+    echo "[$(date --utc) - ERROR]: Try 'sudo ./install_dependency-check.sh'"
     echo "[$(date --utc) - ERROR]: Aborting..."
     exit 1
 fi
 
-# Check if each required argument is set and provide specific error messages
 if [ -z "$DEPENDENCY_CHECK_URL" ]; then
     echo "[$(date --utc) - ERROR]: --url argument is not defined or is empty. Aborting..."
     exit 1
@@ -75,7 +87,14 @@ $DEPENDENCY_CHECK_HOME/bin/dependency-check.sh --version
 if [[ $? -ne 0 ]]
 then
     echo "[$(date --utc) - ERROR]: dependency-check not installed or configurated incorrectly, check installation steps. Aborting..."
-    exit 1 
+    exit 1
+else
+    echo "[$(date --utc) - INFO]: Dependency-Check installed successfully."
+    echo "[$(date --utc) - INFO]: To make Dependency-Check available from any terminal session, add it to your PATH:"
+    echo "[$(date --utc) - INFO]: Add the following line to your .bashrc, .zshrc, or other shell configuration file:"
+    echo "export PATH=\"\$PATH:$DEPENDENCY_CHECK_HOME/bin\""
+    echo "[$(date --utc) - INFO]: Alternatively, you can run the following command:"
+    echo "echo 'export PATH=\"\$PATH:$DEPENDENCY_CHECK_HOME/bin\"' >> ~/.bashrc && source ~/.bashrc"
 fi
 
 echo "[$(date --utc) - INFO]: END 'install_dependency-check.sh'"
