@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 echo "[$(date --utc) - INFO]: START 'install_dependency-check.sh'"
 
 DC_TMP_PATH=/opt/dependency-check.zip
@@ -68,6 +69,7 @@ apt install -y wget unzip gpg openjdk-17-jdk
 
 echo "[$(date --utc) - INFO]: Now downloading $(basename $DEPENDENCY_CHECK_URL) ..."
 wget -O $DC_TMP_PATH $DEPENDENCY_CHECK_URL
+
 echo "[$(date --utc) - INFO]: Now downloading $(basename $$DEPENDENCY_CHECK_ASC) ..."
 wget -O /tmp/dc.zip.asc $DEPENDENCY_CHECK_ASC
 
@@ -83,19 +85,18 @@ mv /tmp/dependency-check/* $DEPENDENCY_CHECK_HOME
 rm -rf $DC_TMP_PATH /tmp/dc.zip.asc /tmp/dependency-check
 
 echo "[$(date --utc) - INFO]: Check if dependency-check is properly installed..."
-$DEPENDENCY_CHECK_HOME/bin/dependency-check.sh --version
-if [[ $? -ne 0 ]]
+if ! $DEPENDENCY_CHECK_HOME/bin/dependency-check.sh --version
 then
     echo "[$(date --utc) - ERROR]: dependency-check not installed or configurated incorrectly, check installation steps. Aborting..."
     exit 1
-else
-    echo "[$(date --utc) - INFO]: Dependency-Check installed successfully."
-    echo "[$(date --utc) - INFO]: To make Dependency-Check available from any terminal session, add it to your PATH:"
-    echo "[$(date --utc) - INFO]: Add the following line to your .bashrc, .zshrc, or other shell configuration file:"
-    echo "export PATH=\"\$PATH:$DEPENDENCY_CHECK_HOME/bin\""
-    echo "[$(date --utc) - INFO]: Alternatively, you can run the following command:"
-    echo "echo 'export PATH=\"\$PATH:$DEPENDENCY_CHECK_HOME/bin\"' >> ~/.bashrc && source ~/.bashrc"
 fi
+
+echo "[$(date --utc) - INFO]: Dependency-Check installed successfully."
+echo "[$(date --utc) - INFO]: To make Dependency-Check available from any terminal session, add it to your PATH:"
+echo "[$(date --utc) - INFO]: Add the following line to your .bashrc, .zshrc, or other shell configuration file:"
+echo "export PATH=\"\$PATH:$DEPENDENCY_CHECK_HOME/bin\""
+echo "[$(date --utc) - INFO]: Alternatively, you can run the following command:"
+echo "echo 'export PATH=\"\$PATH:$DEPENDENCY_CHECK_HOME/bin\"' >> ~/.bashrc && source ~/.bashrc"
 
 echo "[$(date --utc) - INFO]: END 'install_dependency-check.sh'"
 #exit 0
