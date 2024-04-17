@@ -41,6 +41,12 @@ Then, specifically, the following tools are installed.
 
 **to do**
 
+```bash
+function test() {
+  echo "miao"
+}
+```
+
 ---
 
 ### To Do

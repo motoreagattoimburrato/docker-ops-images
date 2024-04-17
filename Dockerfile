@@ -51,11 +51,10 @@ ENV XDG_CONFIG_HOME=/tmp
 #${NODEJS_HOME}/bin
 #ENV NODE_PATH=${NODEJS_HOME}/lib/node_modules
 
-#WORKDIR /opt
-#RUN mkdir -p /opt/scripts
-#COPY ./scripts/* /opt/scripts/
-##COPY ./configs/* /opt/configs/
-#RUN chmod a+x /opt/scripts/*
+WORKDIR /opt
+RUN mkdir -p /opt/scripts
+COPY ./scripts/* /opt/scripts/
+RUN chmod a+x /opt/scripts/*
 
 ## Create OPS user and workspace
 #RUN useradd -rm -d /home/operator -s /bin/bash -g root -G sudo -u 1042 operator
@@ -99,19 +98,25 @@ RUN /opt/scripts/install_kubectl.sh $KUBECTL_URL
 # Install Sonarqube Scanner
 RUN /opt/scripts/install_sonar-scanner.sh $SONAR_SCANNER_URL $SONAR_SCANNER_HOME $SONAR_SCANNER_ASC $SONAR_SCANNER_PUBKEY
 
+# Create OPS user and workspace
+RUN yes Y | apt-get -y install sudo
+RUN useradd -rm -d /home/operator -s /bin/bash -g root -G sudo -u 1042 operator
+RUN mkdir -p /workspace && chown operator -R /workspace
+
 # Cleanup and setup operator user
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN echo "operator ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 USER operator
-# Install SDKMAN CLI
-RUN /opt/scripts/install_sdkman.sh
+WORKDIR /workspace
 
-# Configure Krew for "operator" user
-RUN kubectl krew update ; kubectl krew install ktop kubesec-scan resource-capacity
-
+## Install SDKMAN CLI
+#RUN /opt/scripts/install_sdkman.sh
+#
+## Configure Krew for "operator" user
+#RUN kubectl krew update ; kubectl krew install ktop kubesec-scan resource-capacity
+#
 # Install and configure Oh My Zsh for "operator" user
 #RUN /opt/scripts/zsh.sh
 
-WORKDIR /workspace
 CMD ["/bin/bash"]
