@@ -21,6 +21,10 @@ ARG GOLANG_URL=https://go.dev/dl/go1.21.5.linux-amd64.tar.gz
 ARG GOLANG_SHA256=e2bc0b3e4b64111ec117295c088bde5f00eeed1567999ff77bc859d7df70078e
 ARG GOLANG_HOME=/usr/local/go
 
+# Hashicorp Args
+ARG HASHICORP_APT_REPOSITORY=https://apt.releases.hashicorp.com
+ARG HASHICORP_APT_PUBKEY=https://apt.releases.hashicorp.com/gpg
+
 # HELM envs
 ARG HELM_URL=https://get.helm.sh/helm-v3.12.1-linux-amd64.tar.gz
 ARG HELM_SHA256=1a7074f58ef7190f74ce6db5db0b70e355a655e2013c4d5db2317e63fa9e3dea
@@ -81,7 +85,7 @@ RUN /opt/scripts/install_dependency-check.sh $DEPENDENCY_CHECK_URL $DEPENDENCY_C
 RUN /opt/scripts/install_fluxcd.sh
 
 # Install Hashicorp Tools CLI
-RUN /opt/scripts/install_hashicorp.sh
+RUN /opt/scripts/install_hashicorp-tools.sh --apt-url=${HASHICORP_APT_REPOSITORY} --gpg-url=${HASHICORP_APT_PUBKEY}
 
 # Install GOlang
 RUN /opt/scripts/install_golang.sh $GOLANG_URL $GOLANG_SHA256 $GOLANG_HOME
