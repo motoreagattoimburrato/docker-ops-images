@@ -1,0 +1,51 @@
+FROM ubuntu:jammy
+HEALTHCHECK --interval=30s --timeout=5s CMD echo "Hello World" || exit 1
+
+LABEL "author"="Luca Capanna"
+LABEL "licenze"="MIT License"
+LABEL "image.version"="1.0.42024-test"
+LABEL "image.name"="lukecottage/ops-image"
+LABEL "env"="test"
+LABEL "application"="dependency-check"
+LABEL "scope"="test to install dependency-check"
+
+USER root
+
+# Dependency-Check envs
+ARG DEPENDENCY_CHECK_URL=https://github.com/jeremylong/DependencyCheck/releases/download/v9.1.0/dependency-check-9.1.0-release.zip
+ARG DEPENDENCY_CHECK_ASC=https://github.com/jeremylong/DependencyCheck/releases/download/v9.1.0/dependency-check-9.1.0-release.zip.asc
+ARG DEPENDENCY_CHECK_PUBKEY=259A55407DD6C00299E6607EFFDE55BE73A2D1ED
+ARG DEPENDENCY_CHECK_HOME=/usr/local/dependency-check
+
+# System envs
+ENV PATH="${PATH}:${DEPENDENCY_CHECK_HOME}/bin"
+
+# Workout TZ database setup
+ENV TZ=Etc/UTC
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+WORKDIR /opt
+RUN mkdir -p /opt/scripts
+COPY ./scripts/* /opt/scripts/
+RUN chmod a+x /opt/scripts/*
+
+# Update APT cache befor start install scripts
+RUN apt-get update
+
+# Install Dependency-Check (OWASP)
+RUN /opt/scripts/install_dependency-check.sh --url=${DEPENDENCY_CHECK_URL} --asc-key=${DEPENDENCY_CHECK_ASC} --pubkey=${DEPENDENCY_CHECK_PUBKEY} --home=${DEPENDENCY_CHECK_HOME}
+
+# Create OPS user and workspace
+RUN yes Y | apt-get -y install sudo
+RUN useradd -rm -d /home/operator -s /bin/bash -g root -G sudo -u 1042 operator
+RUN mkdir -p /workspace && chown operator -R /workspace
+
+# Cleanup and setup operator user/workspace
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN echo "operator ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+USER operator
+WORKDIR /workspace
+RUN dependency-check.sh --help
+
+CMD ["/bin/bash"]

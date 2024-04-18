@@ -1,0 +1,52 @@
+FROM ubuntu:jammy
+HEALTHCHECK --interval=30s --timeout=5s CMD echo "Hello World" || exit 1
+
+LABEL "author"="Luca Capanna"
+LABEL "licenze"="MIT License"
+LABEL "image.version"="1.0.42024-test"
+LABEL "image.name"="lukecottage/ops-image"
+LABEL "env"="test"
+LABEL "application"="sonar-scanner"
+LABEL "scope"="test to install sonar-scanner"
+
+USER root
+
+# Sonar scanner envs
+ARG SONAR_SCANNER_URL=https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+ARG SONAR_SCANNER_ASC=https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip.asc
+ARG SONAR_SCANNER_PUBKEY=https://binaries.sonarsource.com/sonarsource-public.key
+ARG SONAR_SCANNER_HOME=/usr/local/sonar-scanner
+ENV SONAR_USER_HOME="${SONAR_SCANNER_HOME}/.sonar"
+
+# System envs
+ENV PATH="${PATH}:${SONAR_SCANNER_HOME}/bin"
+
+# Workout TZ database setup
+ENV TZ=Etc/UTC
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+WORKDIR /opt
+RUN mkdir -p /opt/scripts
+COPY ./scripts/* /opt/scripts/
+RUN chmod a+x /opt/scripts/*
+
+# Update APT cache befor start install scripts
+RUN apt-get update
+
+# Install Dependency-Check (OWASP)
+RUN /opt/scripts/install_sonar-scanner.sh --url=${SONAR_SCANNER_URL} --asc-key=${SONAR_SCANNER_ASC} --pubkey=${SONAR_SCANNER_PUBKEY} --home=${SONAR_SCANNER_HOME}
+
+# Create OPS user and workspace
+RUN yes Y | apt-get -y install sudo
+RUN useradd -rm -d /home/operator -s /bin/bash -g root -G sudo -u 1042 operator
+RUN mkdir -p /workspace && chown operator -R /workspace
+
+# Cleanup and setup operator user/workspace
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN echo "operator ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+USER operator
+WORKDIR /workspace
+RUN sonar-scanner --help
+
+CMD ["/bin/bash"]
