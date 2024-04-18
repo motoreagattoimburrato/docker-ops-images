@@ -51,7 +51,7 @@ done
 
 if [ "$(id -u)" -ne 0 ]; then
     log "ERROR" "You must have administrative privileges to run this script."
-    log "ERROR" "Try 'sudo ./install_dependency-check.sh'"
+    log "ERROR" "Try 'sudo ./install_dependency-check.sh'..."
     log "ERROR" "Aborting..."
     exit 1
 fi
@@ -85,7 +85,7 @@ log "INFO" "| > Source code: https://github.com/jeremylong/DependencyCheck      
 log "INFO" "|---------------------------------------------------------------------------------------------------------|"
 
 log "INFO" "Check if requirements binaries are present and installed if not - wget, unzip, gpg, openjdk-17-jdk - using APT"
-for cmd in curl wget unzip gpg openjdk-17-jdk; do
+for cmd in curl unzip gpg openjdk-17-jdk; do
     if command -v $cmd &> /dev/null; then
         log "WARN" "$cmd is already installed, skip installation..."
     else
