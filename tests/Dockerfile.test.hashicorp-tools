@@ -6,7 +6,7 @@ LABEL "licenze"="MIT License"
 LABEL "image.version"="1.0.42024-test"
 LABEL "image.name"="lukecottage/ops-image"
 LABEL "env"="test"
-LABEL "application"="sonar-scanner"
+LABEL "application"="terraform,packer"
 LABEL "scope"="test to install sonar-scanner"
 
 USER root
@@ -14,9 +14,6 @@ USER root
 # Hashicorp Args
 ARG HASHICORP_APT_REPOSITORY=https://apt.releases.hashicorp.com
 ARG HASHICORP_APT_PUBKEY=https://apt.releases.hashicorp.com/gpg
-
-# System envs
-ENV PATH="${PATH}:${HASHICORP_HOME}/bin"
 
 # Workout TZ database setup
 ENV TZ=Etc/UTC

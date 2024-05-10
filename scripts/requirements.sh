@@ -3,7 +3,6 @@
 mkdir -p /etc/apt/keyrings
 apt-get update
 apt-get -y install \
-  sudo \
   git \
   jq \
   vim \
@@ -15,8 +14,6 @@ apt-get -y install \
   curl \
   ca-certificates \
   build-essential \
-  python3 \
-  python3-pip \
   tar \
   ansible \
   ansible-lint \
@@ -44,6 +41,7 @@ apt-get -y install \
   maven \
   gradle \
   zsh \
+  pandoc \
   software-properties-common
 
 # Homebrew

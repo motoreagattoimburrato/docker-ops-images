@@ -26,5 +26,14 @@ else
     exit 1
 fi
 
+# Check if binary exists
+${HELM_HOME}/helm version
+
+if [[ $? -eq 1 ]]
+then
+    echo "helm not present - check installation steps"
+    exit -1 
+fi
+
 rm -rf $HELM_TMP_PATH
 

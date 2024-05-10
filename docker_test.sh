@@ -27,5 +27,5 @@ docker run --rm --name $container_name --user $container_user -it \
     -v ${container_name}_linuxbrew:/home/linuxbrew \
     -v ${container_name}_operator:/home/operator \
     -v ${container_name}_root:/root \
-    -v D:\\cottage_github\\docker-ops-images:/workspace \
+    -v C:\\WORKSPACE\\cottage_github\\docker-ops-images:/workspace \
     $container_image bash
