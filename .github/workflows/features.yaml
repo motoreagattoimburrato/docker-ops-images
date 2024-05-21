@@ -1,0 +1,60 @@
+name: QA and OPS pipeline
+
+on:
+  push:
+    branches:
+      - 'feature/*'
+      - 'feature'
+
+env:
+  docker_image_name: 'lukecottage/ops-image'
+  path_docker_file: Dockerfile
+
+jobs:
+  qa-base:
+    name: QA - verify and deploy latest version (no tag)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Docker image tag
+        run: echo "DOCKER_IMAGE_VERSION=$(echo ${{ github.ref_name }} | sed 's/[^a-zA-Z0-9]/-/g')" >> $GITHUB_ENV
+        env:
+          GITHUB_ENV: ${{ github.env }}
+      - name: Build docker CI/CD image
+        run: docker build ./ --file ./$path_docker_file --build-arg DEVMODE="no" --tag "${docker_image_name}:${DOCKER_IMAGE_VERSION}"
+      - name: Login to registry (docker hub)
+        run: docker login --username ${{ secrets.DOCKER_REGISTRY_USER }} --password ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+      - name: Push to registry (docker hub)
+        run: docker push "${docker_image_name}:${DOCKER_IMAGE_VERSION}"
+
+  kics:
+    name: QA - KICS scan
+    runs-on: ubuntu-latest
+    container: checkmarx/kics:latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Create report folder output
+        run: mkdir -p ./reports
+
+      # see: https://docs.kics.io/latest/commands/
+      #--exclude-categories Encryption
+      - name: Run KICS scan
+        run: kics scan --no-progress --ci
+              --ignore-on-exit all
+              --type Dockerfile
+              --report-formats json,sarif
+              --output-name results
+              --output-path ./reports
+              --path ./
+
+      - name: DEBUG - check if files exists
+        run: |
+          ls -lah .
+          ls -lah ./reports
+
+      - name: Upload SARIF file (Github CodeQL)
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: ./reports/results.sarif
