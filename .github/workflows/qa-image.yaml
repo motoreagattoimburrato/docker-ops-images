@@ -2,10 +2,11 @@ name: QA and OPS pipeline
 
 on:
   schedule:
-    - cron: '0 10 10 * *'
+    - cron: '0 12 10 2,4,6,8,10,12 *'
   push:
     branches:
-      - '*'
+      - 'main'
+      - 'develop'
 
 env:
   docker_image_name: 'lukecottage/ops-image'
