@@ -79,7 +79,7 @@ RUN /opt/scripts/install_azurecli.sh
 RUN /opt/scripts/install_inspec.sh
 
 # Install Dependency-Check (OWASP)
-RUN /opt/scripts/install_dependency-check.sh $DEPENDENCY_CHECK_URL $DEPENDENCY_CHECK_ASC $DEPENDENCY_CHECK_HOME
+RUN /opt/scripts/install_dependency-check.sh --url=${DEPENDENCY_CHECK_URL} --asc-key=${DEPENDENCY_CHECK_ASC} --pubkey=${DEPENDENCY_CHECK_PUBKEY} --home=${DEPENDENCY_CHECK_HOME}
 
 # Install FluxCD CLI
 RUN /opt/scripts/install_fluxcd.sh
